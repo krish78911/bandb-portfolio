@@ -72,7 +72,7 @@ class IndexController extends AbstractController
 
         if (empty($bookings)) {
             foreach ($rooms as $roomKey => $roomValue) {
-                $rooms[$roomKey]->setAvailability(0);
+                $rooms[$roomKey]->setAvailability(1);
             }
         }
         else {
@@ -80,7 +80,7 @@ class IndexController extends AbstractController
                 foreach ($bookings as $booking) {
                     
                     if ($booking['roomid'] == $roomValue->getId()) {
-                        $rooms[$roomKey]->setAvailability(1);
+                        $rooms[$roomKey]->setAvailability(0);
                     } 
                 }
             }
