@@ -1,0 +1,129 @@
+{% block body %}
+    <table>
+        <tr class="heading">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Persons</th>
+            <th>Room Type</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for booking in bookings %}
+            <tr class="title">
+                <td>{{booking.firstname}}</td>
+                <td>{{booking.lastname}}</td>
+                <td>{{booking.numberofpeople}}</td>
+                <td>{{booking.roomtype}}</td>
+                <td>
+                    <span data-toggle="collapse" data-target="#demo_{{booking.id}}" class="glyphicon glyphicon-edit"></span>
+                </td>
+                <td class="delete_booking" data-url='/deletebooking/{{booking.id}}'>
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </td>
+            </tr>
+            <tr class="details">
+                <td colspan="6">
+                    <div id="demo_{{booking.id}}" class="collapse editRoomAndBoooking">
+            
+                        {% set form =  editform.createView %}
+                        
+                        {{form_start(form, {'attr': {'class': 'editbookingform'}})}}
+                            <div class="row">
+                                <div class="col-lg-12" style="display: none;">
+                                    {{ form_label(form.id, 'id') }}
+                                    {{form_widget(form.id, {'attr': {'placeholder': 'id', 'value': booking.id}}) }}
+                                </div>
+                                <div class="col-lg-12" style="display: none;">
+                                    {{ form_label(form.roomid, 'Roomid') }}
+                                    {{form_widget(form.roomid, {'attr': {'placeholder': 'roomid', 'value': booking.roomid}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.datefrom, 'datefrom') }}
+                                    {{form_widget(form.datefrom, {'attr': {'placeholder': 'datefrom', 'value': booking.datefrom}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.dateto, 'dateto') }}
+                                    {{form_widget(form.dateto, {'attr': {'placeholder': 'dateto', 'value': booking.dateto}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.numberofpeople, 'numberofpeople') }}
+                                    {{form_widget(form.numberofpeople, {'attr': {'placeholder': 'numberofpeople', 'value': booking.numberofpeople}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.firstname, 'firstname') }}
+                                    {{form_widget(form.firstname, {'attr': {'placeholder': 'firstname', 'value': booking.firstname}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.lastname, 'lastname') }}
+                                    {{form_widget(form.lastname, {'attr': {'placeholder': 'lastname', 'value': booking.lastname}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.email, 'email') }}
+                                    {{form_widget(form.email, {'attr': {'placeholder': 'email', 'value': booking.email}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.phone, 'phone') }}
+                                    {{form_widget(form.phone, {'attr': {'placeholder': 'phone', 'value': booking.phone}}) }}
+                                </div>
+                            </div>
+                        {{form_end(form)}}
+                        <div class="row">
+                            <div class="col-lg-12 formSubmittedMessageSuccessEdit"><!-- form submit success message --></div>
+                            <div class="col-lg-12 formSubmittedMessageFailEdit"><!-- form submit Error message --></div>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(".delete_booking").click(function(){
+        var url = $(this).attr('data-url');
+        $.ajax({
+            url: url, 
+            success: function (data) {
+                $('#adminBooking').html(data);
+            },
+            error: function(e) {
+                var str = JSON.stringify(e);
+                alert('Error: '+str);
+            }  
+        });
+    });
+
+    $(".editbookingform").submit(function(e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    $('.formSubmittedMessageSuccessEdit').html('Edited');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageSuccessEdit').empty();
+                        $('#adminBooking').html(data);
+                    }, 3000)
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    $('.formSubmittedMessageFailEdit').html('Error...');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageFailEdit').empty();
+                    }, 3000)
+                }
+            });
+            
+    });
+</script>
+{% endblock %}

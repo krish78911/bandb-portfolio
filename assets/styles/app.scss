@@ -1,0 +1,275 @@
+// @import "~bootstrap/scss/bootstrap";
+
+$blue: #006aba;
+$gray-dark:#707070;
+$black-transparent: rgba(0,0,0,0.5);
+
+@mixin button {
+    width: 100%;
+    padding: 10px;
+    background-color: $blue;
+    border: none;
+    color: white;
+}
+@mixin textheading {
+    padding: 10px;
+    background-color: $blue;
+    color: white;
+}
+@mixin images {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+@mixin paddingandfont {
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+body {
+    #logo {
+        margin-top: 10px;
+        a {
+            text-decoration: none;
+            color: $blue;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    }
+    #borderBelowLogo  {
+        border: 2px inset black;
+    }
+    .section {
+        margin-bottom: 10px;
+        // border: 1px solid red;
+    }
+    .formSubmittedMessageSuccess {
+        color: green;
+    }
+    .formSubmittedMessageError {
+        color: red;
+    }
+    .hideElement {
+        display: none;
+    }
+    #slider {
+        // background-image: url("../images/slider.jpg");
+        background-color: $black-transparent;
+        padding: 40px;
+
+        #searchBox {
+            padding: 10px;
+            background-color: white;
+            border: 4px solid black;
+            text-align: center;
+            #searchBoxText {
+                font-size: 30px;
+            }
+            input {
+                padding: 10px;
+                border: 1px solid black;
+                width: 100%;
+            }
+            select {
+                padding: 12px;
+                border: 1px solid black;
+                width: 100%;
+                background-color: white;
+            }
+            button {
+                @include button;
+                padding: 10px;
+                border: 1px solid black;
+                margin-top: 5px;
+            }
+        }
+    }
+    .details {
+        margin-top: 20px;
+        #detailsRoomsText {
+            font-size: 30px;
+        }
+        .images {
+            // border: 1px solid orange;
+            height: 350px;
+            @include images;
+        }
+        .roomHeading {
+            @include textheading;
+            font-size: 20px;
+            padding-top: 15px;
+        }
+        .detailImageThumbnail {
+            width: 150px; 
+            height: 100px;
+            margin-bottom: 4px;
+        }
+        .carousel-inner {
+            img {
+                height: 300px;
+                object-fit: cover;
+            }
+        }
+        #bookingForm {
+            input {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 5px;
+            }
+            select {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 5px;
+            }
+            button {
+                @include button;
+            }
+            #roomid {
+                display: none;
+            }
+        }
+    }
+    #rooms {
+        #roomsText {
+            font-size: 30px;
+        }
+        .notAvailableRoom {
+            opacity: 0.5;
+        }
+        .room {
+            border: 1px solid $black-transparent;
+            margin-bottom: 15px;
+            padding: 10px;
+            i.roomIcon {
+                width: 33px;
+                height: 33px;
+                padding: 5px;
+                border-radius: 50%;
+                border: 1px outset black;
+                font-size: 20px;
+            }
+            .images {
+                // border: 1px solid orange;
+                height: 250px;
+                @include images;
+            }
+            .roomHeading {
+                // @include textheading;
+                font-size: 25px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .screenView {
+                background-color: $blue;
+                padding: 5px;
+                text-align: center;
+                p {
+                    color: white;
+                    margin-bottom: 0px;
+                    margin: 5px;
+                }
+            }
+            .extraTexts {
+                color: black;
+                font-weight: bold; 
+            }
+            .price {
+                color: black;
+                font-weight: bold; 
+            }
+            .available {
+                padding-left: 10px;
+                color: green;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 10px;
+            }
+            .notavailable {
+                padding-left: 10px;
+                color: red;
+                font-weight: bold;
+                text-align: center;
+                margin-top: 10px;
+            }
+            .selectdates {
+                padding-left: 10px;
+                font-weight: bold;
+            }
+            .book {
+                padding-left: 10px;
+            }
+            a {
+                text-decoration: none;
+            }
+            button {
+                @include button;
+            }
+            .buttonDisabled {
+                background-color: $black-transparent;
+            }
+        }
+    }
+    #about {
+        color: white;
+        background-color: $blue;
+        padding-top: 40px;
+        padding-bottom: 40px;
+        #aboutusText {
+            font-size: 30px;
+        }
+    }
+    #footer {
+        color: $gray-dark;
+        margin-top: 40px;
+        .footerHeading {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+    }
+
+    #admin-bookings, #admin-rooms {
+        margin-bottom: 10px;
+        .adminHeading {
+            @include textheading;
+        }
+        .admin-oneBooking {
+            table {
+                width: 100%;
+                tr.title, tr.heading {
+                    border-bottom: 1px solid $black-transparent;
+                    th, td {
+                        padding-top: 5px;
+                        padding-bottom: 5px;
+                    }
+                }
+                tr.details {
+                    input, textarea {
+                        width: 100%;
+                    }
+                    textarea {
+                        height: 200px;
+                    }
+                    button {
+                        @include button;
+                    }
+                    .editRoomAndBoooking {
+                        padding: 5px;
+                    }
+                }
+            }
+        }
+        #adminAddRoom {
+            input, select {
+                width: 100%;
+                padding: 5px;
+                margin-bottom: 5px;
+            }
+            textarea {
+                width: 100%;
+                height: 300px;
+            }
+            button {
+                @include button;
+            }
+        }
+    }
+} 

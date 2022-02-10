@@ -1,0 +1,28 @@
+{% block body %}
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-6">
+                <div class="row" id="admin-rooms">
+                    <div class="col-lg-12">
+                        <div class="adminHeading">MANAGE ROOMS</div>
+                    </div>
+                    <div class="col-lg-12 admin-oneBooking" id="adminRoom">
+                        {% include 'admin/rooms.html.twig' %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="row" id="admin-rooms">
+                    <div class="col-lg-12">
+                        <div class="adminHeading">ADD ROOM</div>
+                    </div>
+                    <div class="col-lg-12 admin-oneBooking" id="adminAddRoom">
+                        {% include 'admin/addroom.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

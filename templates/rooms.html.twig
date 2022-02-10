@@ -1,0 +1,50 @@
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 section" id="rooms" > 
+                <div id="roomsText">ROOM TYPES</div>
+                <div class="row">
+                    {% for room in rooms %}
+                        {% if room.availability == 0 %}
+                            <a href='/detail/{{room.id}}/{{fromdate}}/{{todate}}'>
+                        {% endif %}
+                        <div class="col-md-4 col-lg-4">
+                            <div class="room 
+                            {% if room.availability != 0 %}
+                            notAvailableRoom
+                            {% endif %}
+                            ">
+                                <div class="screenView">
+                                    <p class="extraTexts"> From: {{fromdate}} - To: {{todate}} </p> 
+                                    <p class="extraTexts"> 
+                                        <i class="fa fa-male"></i> Max People: {{room.maxpeople}}
+                                    </p> 
+                                    <p class="extraTexts"> 
+                                        <i class="fa fa-shower"></i>
+                                        Private Bathroom: {{room.privatebathroom}} 
+                                    </p> 
+                                    <p class="price"> €{{room.price}} per night (€{{room.price * nights}} for {{nights}} nights) </p> 
+                                    <p class="extraTexts"> Checkin: {{room.checkin}}, Checkout: {{room.checkout}} </p> 
+                                </div>
+                                {% if room.availability == 0 %}
+                                    <p class="available"> Available</p> 
+                                {% elseif room.availability == 1 %}
+                                    <p class="notavailable"> Not Available</p>
+                                {% endif %}
+
+                                <p class="roomHeading">
+                                    <i class="fa fa-bed roomIcon"></i> {{room.roomtype}}
+                                </p>
+                               
+                            </div>
+                        </div>
+                        {% if room.availability != 2 %}
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% block body %}
+
+    {{form_start(addroomform, {'attr': {'id': 'addroomform', 'enctype': "multipart/form-data"}})}}
+        <div class="row">
+            <div class="col-lg-12">
+                {{form_widget(addroomform.roomtype, {'attr': {'placeholder': 'Room Type'}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.maxpeople, {'attr': {'placeholder': 'Max People'}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.price, {'attr': {'placeholder': 'Price'}}) }}
+            </div>
+            <div class="col-lg-12" style="display: none;">
+                {{form_widget(addroomform.availability, {'attr': {'placeholder': 'Availability', 'value': 0}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.checkin, {'attr': {'placeholder': 'Checkin'}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.checkout, {'attr': {'placeholder': 'Checkout'}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.privatebathroom, {'attr': {'placeholder': 'private bathroom'}}) }}
+            </div>
+            <div class="col-lg-12">
+                {{form_widget(addroomform.description, {'attr': {'placeholder': 'Description (400 characters)'}}) }}
+            </div>
+        </div>
+    {{form_end(addroomform)}}
+
+    <div class="row">
+        <div class="col-lg-12 formSubmittedMessageSuccess"><!-- form submit success message --></div>
+        <div class="col-lg-12 formSubmittedMessageFail"><!-- form submit Error message --></div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#addroomform").submit(function(e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    $('#adminRoom').html(data);
+                    $('.formSubmittedMessageSuccess').html('Room Added');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageSuccess').empty();
+                    }, 3000)
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    $('.formSubmittedMessageFail').html('Error...');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageFail').empty();
+                    }, 3000)
+                }
+            });
+            
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 section" id="slider" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 nomargin">
+                            <div id="searchBox">
+                                <div id="searchBoxText">SEARCH ROOM</div>
+                                    {{form_start(searchform, {'attr': {'id': 'searchform'}})}}
+                                    <div class="row">
+                                        <div class="col-md-6 col-lg-6">
+                                            {{form_widget(searchform.from, {'id': 'datepickerFrom', 'attr': {'placeholder': 'From', 'autocomplete': 'off', 'value': fromdate}}) }}
+                                        </div>
+                                        <div class="col-md-6 col-lg-6">
+                                            {{form_widget(searchform.to, {'id': 'datepickerTo', 'attr': {'placeholder': 'To', 'autocomplete': 'off', 'value': todate}}) }}
+                                        </div>
+                                    </div>
+                                    {{form_end(searchform)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

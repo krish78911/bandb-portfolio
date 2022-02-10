@@ -1,0 +1,126 @@
+{% block body %}
+    <table>
+        <tr class="heading">
+            <th>Room Type</th>
+            <th>Max People</th>
+            <th>Price</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+        {% for room in rooms %}
+            <tr class="title">
+                <td>{{room.roomtype}}</td>
+                <td>{{room.maxpeople}}</td>
+                <td>{{room.price}}</td>
+                <td>
+                    <span data-toggle="collapse" data-target="#demo_{{room.id}}" class="glyphicon glyphicon-edit"></span>
+                </td>
+                <td class="delete_room" data-url='/deleteroom/{{room.id}}'>
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </td>
+            </tr>
+            <tr class="details">
+                <td colspan="5">
+                    <div id="demo_{{room.id}}" class="collapse editRoomAndBoooking">
+                    
+                        {% set form =  editform.createView %}
+                        
+                        {{form_start(form, {'attr': {'class': 'editroomform'}})}}
+                            <div class="row">
+                                <div class="col-lg-12" style="display: none;">
+                                    {{ form_label(form.id, 'id') }}
+                                    {{form_widget(form.id, {'attr': {'placeholder': 'id', 'value': room.id}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.roomtype, 'roomtype') }}
+                                    {{form_widget(form.roomtype, {'attr': {'placeholder': 'Room Type', 'value': room.roomtype}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.maxpeople, 'maxpeople') }}
+                                    {{form_widget(form.maxpeople, {'attr': {'placeholder': 'Max People', 'value': room.maxpeople}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.price, 'price') }}
+                                    {{form_widget(form.price, {'attr': {'placeholder': 'Price', 'value': room.price}}) }}
+                                </div>
+                                <div class="col-lg-12" style="display: none;">
+                                    {{ form_label(form.availability, 'availability') }}
+                                    {{form_widget(form.availability, {'attr': {'placeholder': 'Availability', 'value': 0}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.checkin, 'checkin') }}
+                                    {{form_widget(form.checkin, {'attr': {'placeholder': 'Checkin', 'value': room.checkin}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.checkout, 'checkout') }}
+                                    {{form_widget(form.checkout, {'attr': {'placeholder': 'Checkout', 'value': room.checkout}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.privatebathroom, 'privatebathroom') }}
+                                    {{form_widget(form.privatebathroom, {'attr': {'placeholder': 'private bathroom', 'value': room.privatebathroom}}) }}
+                                </div>
+                                <div class="col-lg-12">
+                                    {{ form_label(form.description, 'description') }}
+                                    {{form_widget(form.description
+                                    , { 'value': room.description}
+                                    , { 'attr': {'placeholder': 'Description (400 characters)'}}) }}
+                                </div>
+                            </div>
+                        {{form_end(form)}}
+                        <div class="row">
+                            <div class="col-lg-12 formSubmittedMessageSuccessEdit"><!-- form submit success message --></div>
+                            <div class="col-lg-12 formSubmittedMessageFailEdit"><!-- form submit Error message --></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block script %}
+<script>
+    $(".delete_room").click(function(){
+        var url = $(this).attr('data-url');
+        $.ajax({
+            url: url, 
+            success: function (data) {
+                $('#adminRoom').html(data);
+            },
+            error: function(e) {
+                //alert('Error: '+e);
+            }  
+        });
+    });
+
+    $(".editroomform").submit(function(e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    $('.formSubmittedMessageSuccessEdit').html('Edited');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageSuccessEdit').empty();
+                        $('#adminRoom').html(data);
+                    }, 3000)
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    $('.formSubmittedMessageFailEdit').html('Error...');
+                    setTimeout(function(){
+                        $('.formSubmittedMessageFailEdit').empty();
+                    }, 3000)
+                }
+            });
+            
+    });
+</script>
+{% endblock %}
