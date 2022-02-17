@@ -184,6 +184,10 @@ class AdminController extends AbstractController
         $em->remove($record);
         $em->flush();
 
+        $conn = $em->getConnection();
+        $conn->query('DELETE FROM bookings WHERE roomid='.$id);
+
+
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findAll();
         $editform = $this->createForm(EditRoomType::class);
         $editform->add('create', SubmitType::class, array('label' => 'EDIT'));
